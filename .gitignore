@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+# Personal project stuff
+multi-dice-challenge.iml
+multi-dice-challenge.ipr
+multi-dice-challenge.iws
+.firebaserc
