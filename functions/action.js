@@ -53,8 +53,15 @@ const enUnknown = [
 ];
 
 const enRoll = [
-  "You've rolled {{Oxford dice}}, totalling {{total}}.",
-  "Your total is {{total}} from rolling {{Oxford dice}}."
+  "You've rolled {{Oxford dice}}, "+
+    "{{#if isNewHighScore}}for a new high score of {{highScore}}!"+
+    "{{else}}totalling {{total}}, which doesn't beat your high of {{highScore}}."+
+    "{{/if}}",
+
+  "Your total is {{total}} from rolling {{Oxford dice}}, "+
+    "{{#if isNewHighScore}}which is a new high score!"+
+    "{{else}}but this doesn't beat your high score of {{highScore}}."+
+    "{{/if}}"
 ];
 
 /**
