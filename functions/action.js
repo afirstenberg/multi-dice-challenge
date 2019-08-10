@@ -1,6 +1,24 @@
 const Multivocal = require('multivocal');
 const Util = require('multivocal/lib/util');
 
+function buildHighScore( env ){
+  env.highScore = Util.objPathsDefault( env, 'User/State/highScore', 0 );
+  return Promise.resolve( env );
+}
+
+function conditionallySetHighScore( env ){
+  if( env.total > env.highScore ){
+    env.isNewHighScore = true;
+    env.highScore = env.total;
+    Util.setObjPath( env, 'User/State/highScore', env.highScore );
+
+  } else {
+    env.isNewHighScore = false;
+  }
+
+  return Promise.resolve( env );
+}
+
 const enWelcome = [
   "Welcome back to multi dice championship!",
   "Good to see you again."
@@ -56,9 +74,11 @@ function handleRoll( env ){
   let total = dice.reduce( (total, val) => total + val );
   env.total = total;
 
-  // TODO: Check if this is a new high score
+  // Check if this is a new high score
+  return conditionallySetHighScore( env )
 
-  return Multivocal.handleDefault( env );
+    // Produce responses, etc.
+    .then( env => Multivocal.handleDefault( env ) );
 }
 
 const enRank = [
@@ -66,7 +86,8 @@ const enRank = [
 ];
 
 const enScore = [
-  "High scores are not yet implemented."
+  "Your high score is {{highScore}}.",
+  "So far, {{highScore}} is your best."
 ];
 
 const enSuffixDefault = [
@@ -98,6 +119,8 @@ const conf = {
 };
 
 exports.init = function(){
+
+  Multivocal.addBuilder( buildHighScore );
 
   Multivocal.addHandler( 'Action.roll', handleRoll );
 
