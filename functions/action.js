@@ -53,8 +53,8 @@ const enUnknown = [
 ];
 
 const enRoll = [
-  "You've rolled a {{total}}.",
-  "Your total is {{total}}."
+  "You've rolled {{Oxford dice}}, totalling {{total}}.",
+  "Your total is {{total}} from rolling {{Oxford dice}}."
 ];
 
 /**
