@@ -19,9 +19,24 @@ function conditionallySetHighScore( env ){
   return Promise.resolve( env );
 }
 
+const enWelcome1 = [
+  "Welcome to multi dice championship. "+
+    "I'll roll ten dice for you, and tell you your score. "+
+    "Your goal is to beat your personal best and battle for the global high score. "+
+    "Are you ready to get rolling?"
+];
+
+const enWelcome2 = [
+  "Welcome back to multi dice championship! "+
+    "This is your {{ordinalize User.State.NumVisits}} visit "+
+    "and your score so far is {{highScore}}.",
+  "Here on your {{ordinalize User.State.NumVisits}} visit to "+
+    "multi dice championship your score so far is {{highScore}}."
+];
+
 const enWelcome = [
-  "Welcome back to multi dice championship!",
-  "Good to see you again."
+  "Good to see you again. Your high score is {{highScore}}.",
+  "Welcome back! So far, your high score is {{highScore}}."
 ];
 
 const enQuit = [
@@ -99,6 +114,8 @@ const enSuffixDefault = [
 
 const enConf = {
   Response: {
+    "Action.welcome.1": enWelcome1,
+    "Action.welcome.2": enWelcome2,
     "Action.welcome":   enWelcome,
     "Action.quit":      enQuit,
     "Action.unknown":   enUnknown,
@@ -115,6 +132,12 @@ const conf = {
   Local: {
     "und": enConf,
     "en":  enConf
+  },
+  Level: {
+    "Action.welcome": [
+      "{{eq User.State.NumVisits 1}}",
+      "{{lt User.State.NumVisits 5}}"
+    ]
   }
 };
 
