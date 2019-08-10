@@ -1,5 +1,11 @@
 const Multivocal = require('multivocal');
 const Util = require('multivocal/lib/util');
+const Template = require('multivocal/lib/template');
+
+function buildHost( env ){
+  env.host = Util.setting( env, 'host', Template.evalConcatStr );
+  return Promise.resolve( env );
+}
 
 function buildHighScore( env ){
   env.highScore = Util.objPathsDefault( env, 'User/State/highScore', 0 );
@@ -59,9 +65,12 @@ const enRoll = [
         "{{#if isNewHighScore}}for a new high score of {{highScore}}!"+
         "{{else}}totalling {{total}}, which doesn't beat your high of {{highScore}}."+
         "{{/if}}",
-      Ssml: "You "+
+      Ssml: "<audio src='https://{{host}}/audio/allen-roll.mp3'></audio>"+
+        "You "+
         "{{#if isNewHighScore}}have a new high score of {{highScore}}!"+
+        "<audio src='https://{{host}}/audio/allen-yay.mp3'></audio>"+
         "{{else}}rolled {{total}}, which doesn't beat your high of {{highScore}}."+
+        "<audio src='https://{{host}}/audio/allen-boo.mp3'></audio>"+
         "{{/if}}"
     }
   },
@@ -72,9 +81,12 @@ const enRoll = [
         "{{#if isNewHighScore}}which is a new high score!"+
         "{{else}}but this doesn't beat your high score of {{highScore}}."+
         "{{/if}}",
-      Ssml: "Your total is {{total}}, "+
+      Ssml: "<audio src='https://{{host}}/audio/allen-roll.mp3'></audio>"+
+        "Your total is {{total}}, "+
         "{{#if isNewHighScore}}which is a new high score!"+
+        "<audio src='https://{{host}}/audio/allen-yay.mp3'></audio>"+
         "{{else}}but this doesn't beat your high score of {{highScore}}."+
+        "<audio src='https://{{host}}/audio/allen-boo.mp3'></audio>"+
         "{{/if}}"
     }
   }
@@ -161,11 +173,15 @@ const conf = {
       "{{eq User.State.NumVisits 1}}",
       "{{lt User.State.NumVisits 5}}"
     ]
+  },
+  Setting: {
+    host: "{{First (Val 'Req/headers/x-forwarded-host') Req.hostname}}"
   }
 };
 
 exports.init = function(){
 
+  Multivocal.addBuilder( buildHost );
   Multivocal.addBuilder( buildHighScore );
 
   Multivocal.addHandler( 'Action.roll', handleRoll );
