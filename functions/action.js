@@ -2,6 +2,8 @@ const Multivocal = require('multivocal');
 const Util = require('multivocal/lib/util');
 const Template = require('multivocal/lib/template');
 
+const Leaderboard = require('./leaderboard');
+
 function buildHost( env ){
   env.host = Util.setting( env, 'host', Template.evalConcatStr );
   return Promise.resolve( env );
@@ -14,15 +16,17 @@ function buildHighScore( env ){
 
 function conditionallySetHighScore( env ){
   if( env.total > env.highScore ){
+    let oldHighScore = env.highScore;
     env.isNewHighScore = true;
     env.highScore = env.total;
     Util.setObjPath( env, 'User/State/highScore', env.highScore );
 
+    return Leaderboard.changeHighScore( env, oldHighScore, env.highScore );
+
   } else {
     env.isNewHighScore = false;
+    return Promise.resolve( env );
   }
-
-  return Promise.resolve( env );
 }
 
 const enWelcome1 = [
@@ -132,13 +136,48 @@ function handleRoll( env ){
 }
 
 const enRank = [
-  "Ranking is not yet implemented."
+  {
+    Base: {Set:true},
+    Criteria: "{{gt leaderboard.peer 0}}"
+  },
+  "You're tied for {{ordinalize leaderboard.rank}} place "+
+    "with {{leaderboard.peer}} other {{inflect leaderboard.peer 'player' 'players'}}.",
+
+  {
+    Base: {Set:true},
+    Criteria: "{{eq leaderboard.peer 0}}"
+  },
+  "You're in {{ordinalize leaderboard.rank}} place."
 ];
 
 const enScore = [
   "Your high score is {{highScore}}.",
   "So far, {{highScore}} is your best."
 ];
+
+const enReset = [
+  {
+    Template: {
+      Text: "Your account has been reset"
+    },
+    ShouldClose: true
+  }
+];
+
+function handleReset( env ){
+  console.log('Resetting');
+  return Multivocal.handleDefault( env )
+    .then( env => {
+      // Reset the number of visits we've made
+      Util.setObjPath( env, 'User/State/NumVisits', 0 );
+
+      // Reset the high score
+      Util.setObjPath( env, 'User/State/highScore', 0 );
+
+      // Remove our entry in the leaderboard
+      return Leaderboard.changeHighScore( env, env.highScore, 0 );
+    });
+}
 
 const enSuffixDefault = [
   "Shall I roll the dice?",
@@ -156,7 +195,8 @@ const enConf = {
     "Action.unknown":   enUnknown,
     "Action.roll":      enRoll,
     "Intent.ask.rank":  enRank,
-    "Intent.ask.score": enScore
+    "Intent.ask.score": enScore,
+    "Action.reset":     enReset
   },
   Suffix: {
     Default: enSuffixDefault
@@ -185,6 +225,7 @@ exports.init = function(){
   Multivocal.addBuilder( buildHighScore );
 
   Multivocal.addHandler( 'Action.roll', handleRoll );
+  Multivocal.addHandler( 'Action.reset', handleReset );
 
   new Multivocal.Config.Simple( conf );
 };
