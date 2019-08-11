@@ -1,7 +1,7 @@
 {
   "name": "multi-dice-challenge",
   "description": "Multi Dice Championship",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "serve": "firebase serve --only functions",
     "shell": "firebase functions:shell",
