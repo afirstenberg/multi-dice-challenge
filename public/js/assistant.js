@@ -10,6 +10,12 @@ function onUpdate( data ){
   highScoreValue.innerText = data.highScore || '';
   let highScoreBadgeClass = data.isNewHighScore ? 'visible' : 'hidden';
   highScoreNew.className = highScoreBadgeClass;
+
+  if( data.dice ){
+    for( let co=0; co<data.dice.length; co++ ){
+      document.getElementById(`die${co}`).src = `img/dice-${data.dice[co]}.png`;
+    }
+  }
 }
 
 function onTtsMark( mark ){

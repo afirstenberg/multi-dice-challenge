@@ -14,6 +14,33 @@
     .hidden {
       display: none;
     }
+
+    #msg {
+      font-size: 21pt;
+    }
+
+    .die {
+      width: 30%
+    }
+
+    .die.spaced {
+      padding-left: 15%;
+    }
+
+    @media (orientation: landscape) {
+      #msg {
+        font-size: 34pt;
+        float: left;
+        width: 60%;
+      }
+
+      #dice {
+        float: right;
+        width: 40%;
+      }
+    }
+
+
   </style>
 </head>
 <body>
@@ -27,7 +54,7 @@
       </div>
     </div>
     <div id="dice">
-      <img id="die0" class="die">
+      <img id="die0" class="die spaced">
       <img id="die1" class="die">
       <img id="die2" class="die">
       <img id="die3" class="die">
@@ -35,7 +62,7 @@
       <img id="die5" class="die">
       <img id="die6" class="die">
       <img id="die7" class="die">
-      <img id="die8" class="die">
+      <img id="die8" class="die spaced">
       <img id="die9" class="die">
     </div>
   </div>
