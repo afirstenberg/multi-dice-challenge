@@ -1,8 +1,15 @@
 
 function onUpdate( data ){
   console.log('update',data);
-  let msg = document.getElementById('msg');
-  msg.innerText = data.Send.Text;
+
+  const scoreValue = document.getElementById('score-value');
+  const highScoreValue = document.getElementById('high-score-value');
+  const highScoreNew = document.getElementById('high-score-new');
+
+  scoreValue.innerText = data.total || '';
+  highScoreValue.innerText = data.highScore || '';
+  let highScoreBadgeClass = data.isNewHighScore ? 'visible' : 'hidden';
+  highScoreNew.className = highScoreBadgeClass;
 }
 
 function onTtsMark( mark ){

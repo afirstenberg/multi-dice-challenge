@@ -2,6 +2,8 @@
 <head>
   <!-- Load Interactive Canvas JavaScript -->
   <script src="https://www.gstatic.com/assistant/interactivecanvas/api/interactive_canvas.min.js"></script>
+  <script src="js/assistant.js"></script>
+
   <style>
     body {
       width: 100%;
@@ -9,12 +11,21 @@
     #body {
       width: 100%;
     }
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
   <div id="header"></div>
   <div id="body">
-    <div id="msg"></div>
+    <div id="msg">
+      <div id="score">Score: <span id="score-value"></span></div>
+      <div id="high-score">
+        High Score: <span id="high-score-value"></span>
+        <span id="high-score-new" class="hidden">NEW!</span>
+      </div>
+    </div>
     <div id="dice">
       <img id="die0" class="die">
       <img id="die1" class="die">
@@ -29,6 +40,5 @@
     </div>
   </div>
 
-  <script src="js/assistant.js"></script>
 </body>
 </html>

@@ -217,7 +217,16 @@ const conf = {
   Setting: {
     host: "{{First (Val 'Req/headers/x-forwarded-host') Req.hostname}}",
     Page: {
-      Url: "https://{{host}}/assistant.html?session={{Session.StartTime}}"
+      Url: "https://{{host}}/assistant.html?session={{Session.StartTime}}",
+      IncludeEnvironment: [
+        "IntentName",
+        "ActionName",
+        "dice",
+        "total",
+        "highScore",
+        "isNewHighScore",
+        "leaderboard"
+      ]
     }
   }
 };
