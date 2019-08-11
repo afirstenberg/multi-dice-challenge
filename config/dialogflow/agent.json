@@ -5,7 +5,7 @@
   "examples": "",
   "linkToDocs": "",
   "disableInteractionLogs": false,
-  "disableStackdriverLogs": true,
+  "disableStackdriverLogs": false,
   "googleAssistant": {
     "googleAssistantCompatible": true,
     "project": "",
@@ -26,15 +26,17 @@
     "capabilities": [],
     "env": "",
     "protocolVersion": "V2",
-    "autoPreviewEnabled": false,
+    "autoPreviewEnabled": true,
     "isDeviceAgent": false
   },
   "defaultTimezone": "America/New_York",
   "webhook": {
     "url": "",
     "username": "",
-    "headers": {},
-    "available": false,
+    "headers": {
+      "": ""
+    },
+    "available": true,
     "useForDomains": false,
     "cloudFunctionsEnabled": false,
     "cloudFunctionsInitialized": false
@@ -43,7 +45,7 @@
   "customClassifierMode": "use.after",
   "mlMinConfidence": 0.3,
   "supportedLanguages": [],
-  "onePlatformApiVersion": "v2",
+  "onePlatformApiVersion": "v2beta1",
   "analyzeQueryTextSentiment": false,
   "enabledKnowledgeBaseNames": [],
   "knowledgeServiceConfidenceAdjustment": -0.4,

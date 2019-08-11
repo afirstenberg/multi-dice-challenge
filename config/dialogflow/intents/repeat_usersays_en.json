@@ -1,0 +1,38 @@
+[
+  {
+    "id": "268b61a5-fb46-4e40-bcee-3746c3f2babe",
+    "data": [
+      {
+        "text": "what were my dice?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "60ff9b8d-37c0-41a0-bbbd-238d17e62606",
+    "data": [
+      {
+        "text": "what did I roll?",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  },
+  {
+    "id": "66970310-7342-48ee-9107-9913822a1595",
+    "data": [
+      {
+        "text": "repeat",
+        "userDefined": false
+      }
+    ],
+    "isTemplate": false,
+    "count": 0,
+    "updated": 0
+  }
+]

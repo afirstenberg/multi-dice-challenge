@@ -123,10 +123,12 @@ function handleRoll( env ){
   // Roll the dice
   let dice = roll( 10, 6 );
   env.dice = dice;
+  Util.setObjPath( env, 'Session/State/dice', dice );
 
   // Add them up to get the total
   let total = dice.reduce( (total, val) => total + val );
   env.total = total;
+  Util.setObjPath( env, 'Session/State/total', total );
 
   // Check if this is a new high score
   return conditionallySetHighScore( env )
@@ -179,6 +181,26 @@ function handleReset( env ){
     });
 }
 
+const enRepeat = [
+  "{{#if Session/State/total}}"+
+    "You rolled {{Oxford Session/State/dice}} "+
+    "for a total of {{Session/State/total}}. {{/if}}"+
+    "Your high score is {{highScore}} "+
+    "which puts you in {{ordinalize leaderboard.rank}} place worldwide."
+];
+
+const enHelp = [
+  "I'll roll ten dice for you, and tell you your score. "+
+    "Your goal is to beat your personal best and battle for the global high score. "+
+    "You can roll, ask about your scores or your global ranking."
+];
+
+const enVersion = [
+  "This is {{Config/Setting/Package/description}} "+
+    "version {{Config/Setting/Package/version}}. "+
+    "Written by Allen Firstenberg with inspiration from Florian Hollandt."
+];
+
 const enSuffixDefault = [
   "Shall I roll the dice?",
   "Would you like me to roll the dice?",
@@ -196,7 +218,10 @@ const enConf = {
     "Action.roll":      enRoll,
     "Intent.ask.rank":  enRank,
     "Intent.ask.score": enScore,
-    "Action.reset":     enReset
+    "Action.reset":     enReset,
+    "Action.repeat":    enRepeat,
+    "Action.help":      enHelp,
+    "Action.version":   enVersion
   },
   Suffix: {
     Default: enSuffixDefault
@@ -216,6 +241,7 @@ const conf = {
   },
   Setting: {
     host: "{{First (Val 'Req/headers/x-forwarded-host') Req.hostname}}",
+    Package: require('./package.json'),
     Page: {
       Url: "https://{{host}}/assistant.html?session={{Session.StartTime}}",
       IncludeEnvironment: [
