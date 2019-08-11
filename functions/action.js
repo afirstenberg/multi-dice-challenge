@@ -215,7 +215,10 @@ const conf = {
     ]
   },
   Setting: {
-    host: "{{First (Val 'Req/headers/x-forwarded-host') Req.hostname}}"
+    host: "{{First (Val 'Req/headers/x-forwarded-host') Req.hostname}}",
+    Page: {
+      Url: "https://{{host}}/assistant.html?session={{Session.StartTime}}"
+    }
   }
 };
 
